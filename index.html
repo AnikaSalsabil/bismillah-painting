@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bismillah Painting & Decorating | Sydney's Premium Painters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-deep:  #1565C0;
+    --blue-mid:   #1E88E5;
+    --blue-light: #F0F5FF;
+    --blue-pale:  #E3EEFF;
+    --gold:       #F9A825;
+    --gold-dark:  #FF6F00;
+    --gold-light: #FFF8E1;
+    --white:      #FFFFFF;
+    --text-dark:  #0D1B3E;
+    --text-mid:   #3A4A6B;
+    --text-muted: #6B7A99;
+    --border:     rgba(21,101,192,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 60px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 20px rgba(21,101,192,0.07);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--blue-deep); text-decoration: none; }
+  .nav-logo span { color: var(--gold-dark); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--blue-deep); }
+  .nav-cta { background: var(--gold) !important; color: var(--text-dark) !important; padding: 10px 22px; border-radius: 4px; font-weight: 700 !important; }
+  .nav-cta:hover { background: var(--gold-dark) !important; color: #fff !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--blue-deep); display: block; }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding-top: 80px; background: var(--blue-light); }
+  .hero-topbar { position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--blue-deep), var(--blue-mid), var(--gold), var(--gold-dark)); }
+  .hero-shape { position: absolute; border-radius: 50%; animation: floatShape 10s ease-in-out infinite; }
+  .hs1 { width: 600px; height: 600px; background: rgba(21,101,192,0.07); top: -200px; right: -150px; }
+  .hs2 { width: 350px; height: 350px; background: rgba(249,168,37,0.07); bottom: -100px; left: -80px; animation-delay: 4s; }
+  .hs3 { width: 180px; height: 180px; background: rgba(30,136,229,0.06); top: 30%; left: 8%; animation-delay: 7s; }
+  @keyframes floatShape { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-22px) scale(1.04)} }
+
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 860px; padding: 0 24px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(21,101,192,0.08); border: 1px solid rgba(21,101,192,0.2); color: var(--blue-deep); font-size: 0.72rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 600; padding: 8px 20px; border-radius: 40px; margin-bottom: 28px; animation: fadeDown 0.7s ease forwards; opacity: 0; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6.5vw, 5.2rem); font-weight: 900; line-height: 1.08; color: var(--text-dark); margin-bottom: 24px; animation: fadeDown 0.7s 0.15s ease forwards; opacity: 0; }
+  .hero-title .highlight { color: var(--blue-deep); font-style: italic; position: relative; }
+  .hero-title .highlight::after { content:''; position: absolute; left: 0; bottom: -5px; right: 0; height: 4px; background: var(--gold); border-radius: 2px; }
+  .hero-sub { font-size: 1.05rem; line-height: 1.75; color: var(--text-mid); max-width: 600px; margin: 0 auto 36px; font-weight: 300; animation: fadeDown 0.7s 0.3s ease forwards; opacity: 0; }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeDown 0.7s 0.45s ease forwards; opacity: 0; }
+  .hero-stats { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; margin-top: 52px; padding-top: 32px; border-top: 1px solid rgba(21,101,192,0.15); animation: fadeDown 0.7s 0.6s ease forwards; opacity: 0; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--blue-deep); display: block; }
+  .stat-label { font-size: 0.72rem; letter-spacing: 1.8px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; display: block; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+
+  /* BUTTONS */
+  .btn-primary { background: var(--blue-deep); color: #fff; text-decoration: none; padding: 15px 32px; font-weight: 700; font-size: 0.88rem; border-radius: 4px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; box-shadow: 0 4px 18px rgba(21,101,192,0.28); }
+  .btn-primary:hover { background: var(--blue-mid); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(21,101,192,0.38); }
+  .btn-gold { background: var(--gold); color: var(--text-dark); text-decoration: none; padding: 15px 32px; font-weight: 700; font-size: 0.88rem; border-radius: 4px; transition: all 0.3s; border: none; cursor: pointer; box-shadow: 0 4px 18px rgba(249,168,37,0.28); }
+  .btn-gold:hover { background: var(--gold-dark); color: #fff; transform: translateY(-2px); }
+  .btn-outline { border: 2px solid var(--blue-deep); color: var(--blue-deep); text-decoration: none; padding: 13px 30px; font-weight: 600; font-size: 0.88rem; border-radius: 4px; transition: all 0.3s; background: transparent; cursor: pointer; }
+  .btn-outline:hover { background: var(--blue-deep); color: #fff; }
+
+  /* SECTIONS */
+  section { padding: 96px 60px; }
+  .section-label { font-size: 0.7rem; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold-dark); font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-label::before { content:''; display:block; width:28px; height:3px; background:var(--gold); border-radius:2px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem,3.5vw,2.8rem); font-weight: 700; line-height: 1.2; color: var(--text-dark); margin-bottom: 16px; }
+  .section-title em { color: var(--blue-deep); font-style: italic; }
+  .section-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.75; max-width: 520px; font-weight: 300; }
+
+  /* SERVICES */
+  #services { background: var(--white); }
+  .services-header { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; max-width: 1200px; margin-left: auto; margin-right: auto; }
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
+  .service-card { background: var(--blue-light); border: 1px solid var(--border); border-radius: 10px; padding: 34px 28px; position: relative; overflow: hidden; transition: all 0.35s; }
+  .service-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--blue-deep),var(--gold)); transform:scaleX(0); transform-origin:left; transition:transform 0.35s; }
+  .service-card:hover { box-shadow: 0 12px 40px rgba(21,101,192,0.12); transform: translateY(-4px); border-color: rgba(21,101,192,0.25); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { width: 50px; height: 50px; background: var(--blue-deep); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 18px; transition: background 0.35s; }
+  .service-card:hover .service-icon { background: var(--gold-dark); }
+  .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
+  .service-card p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.7; }
+  .service-num { position: absolute; top: 14px; right: 18px; font-family:'Playfair Display',serif; font-size: 2.8rem; color: rgba(21,101,192,0.06); font-weight: 900; line-height: 1; }
+
+  /* GALLERY */
+  #gallery { background: var(--blue-light); }
+  .gallery-header { max-width: 1200px; margin: 0 auto 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .gallery-filters { display: flex; gap: 8px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto 32px; }
+  .filter-btn { background: var(--white); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 18px; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 40px; transition: all 0.3s; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .filter-btn.active, .filter-btn:hover { background: var(--blue-deep); border-color: var(--blue-deep); color: #fff; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 4px; max-width: 1200px; margin: 0 auto; border-radius: 10px; overflow: hidden; }
+  .gallery-item { position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 1; background: var(--blue-pale); }
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s ease; }
+  .gallery-item:hover img { transform: scale(1.07); }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(21,101,192,0.72) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; display: flex; align-items: flex-end; padding: 14px; }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-label { font-size: 0.74rem; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; font-weight: 600; background: rgba(249,168,37,0.92); padding: 4px 10px; border-radius: 4px; }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(13,27,62,0.97); display: none; align-items: center; justify-content: center; padding: 20px; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 6px; }
+  .lightbox-close { position: absolute; top: 20px; right: 28px; color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none; opacity: 0.7; transition: opacity 0.3s; }
+  .lightbox-close:hover { opacity: 1; color: var(--gold); }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(249,168,37,0.15); border: 1px solid rgba(249,168,37,0.4); color: #fff; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.4rem; transition: all 0.3s; border-radius: 4px; }
+  .lightbox-nav:hover { background: var(--gold); color: var(--text-dark); }
+  .lightbox-prev { left: 20px; }
+  .lightbox-next { right: 20px; }
+
+  /* WHY US */
+  #why { background: var(--white); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .why-list { margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+  .why-item { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--blue-light); transition: all 0.3s; }
+  .why-item:hover { border-color: var(--blue-mid); box-shadow: 0 4px 18px rgba(21,101,192,0.1); }
+  .why-icon { width: 42px; height: 42px; flex-shrink: 0; background: var(--blue-deep); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .why-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+  .why-item p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+  .why-visual { position: relative; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(21,101,192,0.14); }
+  .why-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+  .why-img-grid img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s; }
+  .why-img-grid img:hover { transform: scale(1.04); }
+  .why-badge { position: absolute; bottom: 20px; left: 20px; background: var(--gold); color: var(--text-dark); padding: 12px 18px; border-radius: 6px; box-shadow: 0 4px 16px rgba(249,168,37,0.4); }
+  .why-badge strong { font-family:'Playfair Display',serif; font-size: 1.4rem; display: block; font-weight: 900; }
+  .why-badge span { font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+
+  /* QUOTE */
+  #quote { background: var(--blue-light); }
+  .quote-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.6fr; gap: 72px; align-items: start; }
+  .quote-info { position: sticky; top: 100px; }
+  .contact-item { display: flex; gap: 14px; align-items: flex-start; margin-top: 26px; }
+  .contact-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--blue-deep); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .contact-item h4 { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dark); font-weight: 700; margin-bottom: 3px; }
+  .contact-item a, .contact-item p { color: var(--text-mid); font-size: 0.9rem; text-decoration: none; transition: color 0.3s; }
+  .contact-item a:hover { color: var(--blue-deep); }
+  .quote-form-wrap { background: var(--white); border-radius: 12px; padding: 38px; border: 1px solid var(--border); box-shadow: 0 8px 40px rgba(21,101,192,0.08); }
+  .form-title { font-family:'Playfair Display',serif; font-size: 1.4rem; font-weight: 700; color: var(--text-dark); margin-bottom: 22px; padding-bottom: 16px; border-bottom: 3px solid var(--gold); }
+  .quote-form { display: flex; flex-direction: column; gap: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: 0.73rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+  input, select, textarea { background: var(--blue-light); border: 1px solid var(--border); color: var(--text-dark); padding: 12px 14px; font-family:'DM Sans',sans-serif; font-size: 0.9rem; border-radius: 6px; transition: all 0.3s; outline: none; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--blue-mid); background: var(--white); box-shadow: 0 0 0 3px rgba(30,136,229,0.1); }
+  select option { background: var(--white); }
+  textarea { resize: vertical; min-height: 110px; }
+  .file-upload { border: 2px dashed rgba(21,101,192,0.2); padding: 22px; border-radius: 6px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; background: var(--blue-light); }
+  .file-upload:hover { border-color: var(--blue-mid); }
+  .file-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .file-upload p { color: var(--text-muted); font-size: 0.85rem; }
+  .file-upload strong { color: var(--blue-deep); }
+  .form-submit { background: var(--blue-deep); color: #fff; border: none; padding: 16px 32px; font-family:'DM Sans',sans-serif; font-size: 0.88rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 6px; transition: all 0.3s; width: 100%; box-shadow: 0 4px 16px rgba(21,101,192,0.25); }
+  .form-submit:hover { background: var(--blue-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(21,101,192,0.35); }
+  .form-success { display: none; text-align: center; padding: 40px; }
+  .form-success.show { display: block; }
+  .form-success h3 { font-family:'Playfair Display',serif; font-size: 1.5rem; color: var(--blue-deep); margin-bottom: 12px; }
+  .form-success p { color: var(--text-muted); }
+
+  /* MAP */
+  #location { background: var(--white); padding: 0; }
+  .map-wrapper { max-width: 1200px; margin: 0 auto; padding: 80px 60px; }
+  .map-header { margin-bottom: 32px; }
+  .map-container { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(21,101,192,0.1); }
+  .map-container iframe { width: 100%; height: 400px; border: none; display: block; }
+
+  /* FOOTER */
+  footer { background: var(--text-dark); color: rgba(255,255,255,0.8); padding: 60px; }
+  .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 56px; margin-bottom: 40px; }
+  .footer-logo { font-family:'Playfair Display',serif; font-size: 1.3rem; font-weight: 700; color: var(--gold); margin-bottom: 14px; display: block; }
+  .footer-brand p { color: rgba(255,255,255,0.4); font-size: 0.87rem; line-height: 1.7; max-width: 300px; }
+  .footer-socials { display: flex; gap: 10px; margin-top: 20px; }
+  .social-btn { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col h4 { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.87rem; transition: color 0.3s; }
+  .footer-col a:hover { color: rgba(255,255,255,0.9); }
+  .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .footer-bottom p { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+
+  /* FLOATING CTA */
+  .floating-phone { position: fixed; bottom: 28px; right: 28px; z-index: 999; background: var(--gold); color: var(--text-dark); padding: 14px 22px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.85rem; box-shadow: 0 6px 28px rgba(249,168,37,0.5); transition: all 0.3s; display: flex; align-items: center; gap: 8px; animation: pulseGold 2.5s ease-in-out infinite; }
+  .floating-phone:hover { background: var(--gold-dark); color: #fff; transform: translateY(-3px); }
+  @keyframes pulseGold { 0%,100%{box-shadow:0 6px 28px rgba(249,168,37,0.5)} 50%{box-shadow:0 6px 44px rgba(249,168,37,0.8)} }
+
+  /* MOBILE MENU */
+  .mobile-menu { position: fixed; inset: 0; z-index: 999; background: rgba(255,255,255,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family:'Playfair Display',serif; font-size: 2rem; color: var(--text-dark); text-decoration: none; transition: color 0.3s; }
+  .mobile-menu a:hover { color: var(--blue-deep); }
+  .mobile-menu-close { position: absolute; top: 22px; right: 24px; background: none; border: none; color: var(--text-dark); font-size: 1.8rem; cursor: pointer; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: all 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 68px 24px; }
+    .services-header { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item.wide { grid-column: span 1; }
+    .why-grid { grid-template-columns: 1fr; }
+    .quote-container { grid-template-columns: 1fr; gap: 36px; }
+    .quote-info { position: static; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .map-wrapper { padding: 60px 24px; }
+    footer { padding: 40px 24px; }
+    .quote-form-wrap { padding: 24px; }
+  }
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 20px; }
+    .floating-phone span { display: none; }
+    .floating-phone { border-radius: 50%; width: 54px; height: 54px; padding: 0; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Bismillah <span>Painting</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#why">About</a></li>
+    <li><a href="#quote">Contact</a></li>
+    <li><a href="tel:0452320822" class="nav-cta">📞 Free Quote</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="toggleMenu()">✕</button>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#gallery" onclick="toggleMenu()">Gallery</a>
+  <a href="#why" onclick="toggleMenu()">About</a>
+  <a href="#quote" onclick="toggleMenu()">Get a Quote</a>
+  <a href="tel:0452320822" style="color:var(--blue-deep)">0452 320 822</a>
+</div>
+
+<section id="hero">
+  <div class="hero-topbar"></div>
+  <div class="hero-shape hs1"></div>
+  <div class="hero-shape hs2"></div>
+  <div class="hero-shape hs3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Sydney's Trusted Painters ✦</div>
+    <h1 class="hero-title">
+      Affordable Pricing.<br>
+      <span class="highlight">Premium Quality.</span>
+    </h1>
+    <p class="hero-sub">Bismillah Painting & Decorating brings precision and pride to every project - from cosy homes in Airds to commercial builds across Sydney. Call today for a free, no-obligation quote.</p>
+    <div class="hero-btns">
+      <a href="tel:0452320822" class="btn-primary">📞 Call 0452 320 822</a>
+      <a href="#quote" class="btn-gold">Get Free Quote →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Projects Done</span></div>
+      <div class="stat"><span class="stat-num">5★</span><span class="stat-label">Client Rating</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Quality Guarantee</span></div>
+      <div class="stat"><span class="stat-num">NSW</span><span class="stat-label">Licensed & Insured</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Services Built Around <em>Your Vision</em></h2>
+    </div>
+    <p class="section-sub">Whether refreshing a bedroom or finishing a commercial build, we bring craftsmanship and care to every job.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-num">01</div><div class="service-icon">🏠</div><h3>Interior Painting</h3><p>Walls, ceilings, trims, and feature walls. Properly prepared surfaces and premium paints for a lasting finish.</p></div>
+    <div class="service-card reveal"><div class="service-num">02</div><div class="service-icon">🏘️</div><h3>Exterior Painting</h3><p>Protect and refresh your home's exterior with weather-resistant coatings suited to Sydney's climate.</p></div>
+    <div class="service-card reveal"><div class="service-num">03</div><div class="service-icon">🏢</div><h3>Commercial & Industrial</h3><p>Offices, warehouses, retail and industrial sites - completed on schedule and within budget, every time.</p></div>
+    <div class="service-card reveal"><div class="service-num">04</div><div class="service-icon">✨</div><h3>Decorative Construction</h3><p>Feature walls, textured finishes, rendering, and decorative effects that transform ordinary spaces.</p></div>
+    <div class="service-card reveal"><div class="service-num">05</div><div class="service-icon">🎨</div><h3>Colour Consultation</h3><p>Not sure what colours suit you? We help you choose the perfect palette for your space and style.</p></div>
+    <div class="service-card reveal"><div class="service-num">06</div><div class="service-icon">💡</div><h3>Expert Advice</h3><p>Free site visits, honest assessments, and guidance on materials, finishes, and the full project scope.</p></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div><div class="section-label">Our Work</div><h2 class="section-title">Projects We're <em>Proud Of</em></h2></div>
+    <a href="#quote" class="btn-primary">Start Your Project</a>
+  </div>
+  <div class="gallery-filters reveal">
+    <button class="filter-btn active" onclick="filterGallery('all',this)">All Projects</button>
+    <button class="filter-btn" onclick="filterGallery('interior',this)">Interior</button>
+    <button class="filter-btn" onclick="filterGallery('exterior',this)">Exterior</button>
+    <button class="filter-btn" onclick="filterGallery('construction',this)">Construction</button>
+    <button class="filter-btn" onclick="filterGallery('commercial',this)">Commercial</button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item wide" data-cat="interior" onclick="openLightbox(0)"><img src="images/IMG-20250220-WA0029.jpg" alt="Interior painting"><div class="gallery-overlay"><span class="gallery-label">Interior Painting</span></div></div>
+    <div class="gallery-item" data-cat="construction" onclick="openLightbox(1)"><img src="images/IMG-20250220-WA0030.jpg" alt="Staircase"><div class="gallery-overlay"><span class="gallery-label">Staircase Finishing</span></div></div>
+    <div class="gallery-item" data-cat="construction" onclick="openLightbox(2)"><img src="images/IMG-20250220-WA0031.jpg" alt="Timber door"><div class="gallery-overlay"><span class="gallery-label">Timber Door</span></div></div>
+    <div class="gallery-item" data-cat="construction" onclick="openLightbox(3)"><img src="images/IMG-20250220-WA0032.jpg" alt="Door painting"><div class="gallery-overlay"><span class="gallery-label">Door Transformation</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(4)"><img src="images/IMG-20250220-WA0033.jpg" alt="New home exterior"><div class="gallery-overlay"><span class="gallery-label">New Home Exterior</span></div></div>
+    <div class="gallery-item wide" data-cat="commercial" onclick="openLightbox(5)"><img src="images/IMG-20250220-WA0034.jpg" alt="Commercial warehouse"><div class="gallery-overlay"><span class="gallery-label">Commercial Warehouse</span></div></div>
+    <div class="gallery-item" data-cat="commercial" onclick="openLightbox(6)"><img src="images/IMG-20250220-WA0035.jpg" alt="Industrial site"><div class="gallery-overlay"><span class="gallery-label">Industrial Site</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(7)"><img src="images/IMG-20250220-WA0036.jpg" alt="House repaint"><div class="gallery-overlay"><span class="gallery-label">House Repaint</span></div></div>
+    <div class="gallery-item" data-cat="interior" onclick="openLightbox(8)"><img src="images/IMG-20250220-WA0037.jpg" alt="Feature wall"><div class="gallery-overlay"><span class="gallery-label">Feature Wall Unit</span></div></div>
+    <div class="gallery-item" data-cat="commercial" onclick="openLightbox(9)"><img src="images/IMG-20250220-WA0038.jpg" alt="Commercial fit-out"><div class="gallery-overlay"><span class="gallery-label">Commercial Fit-Out</span></div></div>
+    <div class="gallery-item" data-cat="construction" onclick="openLightbox(10)"><img src="images/IMG-20250220-WA0039.jpg" alt="Timber staircase"><div class="gallery-overlay"><span class="gallery-label">Staircase Staining</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(11)"><img src="images/IMG-20250220-WA0040.jpg" alt="Modern home"><div class="gallery-overlay"><span class="gallery-label">Modern Home</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(12)"><img src="images/IMG-20250220-WA0041.jpg" alt="Exterior refresh"><div class="gallery-overlay"><span class="gallery-label">Exterior Refresh</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(13)"><img src="images/IMG-20250220-WA0042.jpg" alt="New build"><div class="gallery-overlay"><span class="gallery-label">New Build Exterior</span></div></div>
+    <div class="gallery-item" data-cat="construction" onclick="openLightbox(14)"><img src="images/IMG-20250220-WA0043.jpg" alt="Construction project"><div class="gallery-overlay"><span class="gallery-label">Construction Project</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(15)"><img src="images/IMG-20250220-WA0044.jpg" alt="Duplex exterior"><div class="gallery-overlay"><span class="gallery-label">Duplex Exterior</span></div></div>
+    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(16)"><img src="images/IMG-20250220-WA0045.jpg" alt="Brick repaint"><div class="gallery-overlay"><span class="gallery-label">Brick Exterior Paint</span></div></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+</div>
+
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-label reveal">Why Choose Us</div>
+      <h2 class="section-title reveal">Quality You Can <em>See and Feel</em></h2>
+      <p class="section-sub reveal">Every brush stroke matters. Affordable pricing and premium quality aren't opposites - and we prove it on every job.</p>
+      <div class="why-list">
+        <div class="why-item reveal"><div class="why-icon">✓</div><div><h4>Affordable, Transparent Pricing</h4><p>No hidden costs. We quote honestly and stick to it - premium results at fair prices.</p></div></div>
+        <div class="why-item reveal"><div class="why-icon">🛡️</div><div><h4>Licensed & Fully Insured</h4><p>Your property is protected and our team meets all Australian licensing standards.</p></div></div>
+        <div class="why-item reveal"><div class="why-icon">⏱️</div><div><h4>On Time, Every Time</h4><p>We respect your schedule and deliver within agreed timelines with minimal disruption.</p></div></div>
+        <div class="why-item reveal"><div class="why-icon">🎨</div><div><h4>Premium Products Only</h4><p>Quality paints and materials that hold up to Sydney's climate for years to come.</p></div></div>
+      </div>
+    </div>
+    <div class="why-visual reveal">
+      <div class="why-img-grid">
+        <img src="images/IMG-20250220-WA0033.jpg" alt="Completed home">
+        <img src="images/IMG-20250220-WA0040.jpg" alt="Modern home">
+        <img src="images/IMG-20250220-WA0037.jpg" alt="Feature wall">
+        <img src="images/IMG-20250220-WA0039.jpg" alt="Staircase">
+      </div>
+      <div class="why-badge"><strong>100%</strong><span>Satisfaction Guarantee</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="quote">
+  <div class="quote-container">
+    <div class="quote-info reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Get Your <em>Free Quote</em></h2>
+      <p class="section-sub">Fill out the form and we'll get back to you within 24 hours with a free, no-obligation quote.</p>
+      <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Phone</h4><a href="tel:0452320822">0452 320 822</a></div></div>
+      <div class="contact-item"><div class="contact-icon">📍</div><div><h4>Location</h4><p>Kingsbury Street, Airds<br>Sydney, NSW 2566</p></div></div>
+      <div class="contact-item"><div class="contact-icon">📘</div><div><h4>Facebook</h4><a href="https://www.facebook.com/profile.php?id=100083475635920" target="_blank">Follow us on Facebook</a></div></div>
+      <div class="contact-item"><div class="contact-icon">📸</div><div><h4>Instagram</h4><p>Coming Soon</p></div></div>
+    </div>
+    <div class="reveal">
+      <div class="quote-form-wrap">
+        <div class="form-title">Request a Free Quote</div>
+        <div class="quote-form" id="quoteForm">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="fname" placeholder="John Smith" required></div>
+            <div class="form-group"><label>Email *</label><input type="email" id="femail" placeholder="john@example.com" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Phone Number *</label><input type="tel" id="fphone" placeholder="04XX XXX XXX" required></div>
+            <div class="form-group"><label>Suburb</label><input type="text" id="fsuburb" placeholder="e.g. Campbelltown"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>State</label><select id="fstate"><option value="">Select State</option><option value="NSW" selected>NSW</option><option value="VIC">VIC</option><option value="QLD">QLD</option><option value="SA">SA</option><option value="WA">WA</option></select></div>
+            <div class="form-group"><label>Service Required</label><select id="fservice"><option value="">Select Service</option><option>Interior Painting</option><option>Exterior Painting - Residential</option><option>Exterior Painting - Commercial</option><option>Exterior Painting - Industrial</option><option>Decorative Construction</option><option>Colour Consultation</option><option>Other / Not Sure</option></select></div>
+          </div>
+          <div class="form-group"><label>Message</label><textarea id="fmessage" placeholder="Tell us about your project - size, timeline, any special requirements..."></textarea></div>
+          <div class="form-group">
+            <label>Attach Photos (optional)</label>
+            <div class="file-upload">
+              <input type="file" id="ffiles" multiple accept="image/*,.pdf">
+              <p>📎 <strong>Click to upload</strong> or drag & drop files here</p>
+              <p style="margin-top:4px;font-size:0.74rem;">Images and PDFs welcome</p>
+            </div>
+          </div>
+          <button class="form-submit" onclick="submitForm()">Submit - Get My Free Quote →</button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div style="font-size:3rem;margin-bottom:14px;">✅</div>
+          <h3>Request Sent!</h3>
+          <p>Thank you! We'll be in touch within 24 hours with your free quote.</p>
+          <p style="margin-top:10px;">Urgent? Call us: <a href="tel:0452320822" style="color:var(--blue-deep);font-weight:600;">0452 320 822</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="location">
+  <div class="map-wrapper">
+    <div class="map-header reveal"><div class="section-label">Find Us</div><h2 class="section-title">Based in <em>Airds, Sydney</em></h2></div>
+    <div class="map-container reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.123!2d150.8!3d-34.07!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sKingsbury+St%2C+Airds+NSW+2566!5e0!3m2!1sen!2sau!4v1680000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bismillah Painting - Airds Sydney"></iframe>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="footer-logo">Bismillah Painting & Decorating</span>
+      <p>Sydney's trusted painting and decorating professionals. Premium quality at affordable prices, serving residential, commercial, and industrial clients across NSW.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/profile.php?id=100083475635920" target="_blank" class="social-btn" title="Facebook">f</a>
+        <a href="#" class="social-btn" title="Instagram">📸</a>
+        <a href="tel:0452320822" class="social-btn" title="Call">📞</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Interior Painting</a></li>
+        <li><a href="#services">Exterior Painting</a></li>
+        <li><a href="#services">Commercial & Industrial</a></li>
+        <li><a href="#services">Decorative Construction</a></li>
+        <li><a href="#services">Colour Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:0452320822">0452 320 822</a></li>
+        <li><a href="#quote">Get a Free Quote</a></li>
+        <li><a href="#gallery">View Our Work</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=100083475635920" target="_blank">Facebook</a></li>
+        <li><a href="#location">Airds, Sydney NSW 2566</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Bismillah Painting & Decorating PTY LTD. All rights reserved.</p>
+    <p>Sydney, NSW Australia</p>
+  </div>
+</footer>
+
+<a href="tel:0452320822" class="floating-phone">📞 <span>0452 320 822</span></a>
+
+<script>
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+  const galleryImages = [
+    'images/IMG-20250220-WA0029.jpg',
+    'images/IMG-20250220-WA0030.jpg',
+    'images/IMG-20250220-WA0031.jpg',
+    'images/IMG-20250220-WA0032.jpg',
+    'images/IMG-20250220-WA0033.jpg',
+    'images/IMG-20250220-WA0034.jpg',
+    'images/IMG-20250220-WA0035.jpg',
+    'images/IMG-20250220-WA0036.jpg',
+    'images/IMG-20250220-WA0037.jpg',
+    'images/IMG-20250220-WA0038.jpg',
+    'images/IMG-20250220-WA0039.jpg',
+    'images/IMG-20250220-WA0040.jpg',
+    'images/IMG-20250220-WA0041.jpg',
+    'images/IMG-20250220-WA0042.jpg',
+    'images/IMG-20250220-WA0043.jpg',
+    'images/IMG-20250220-WA0044.jpg',
+    'images/IMG-20250220-WA0045.jpg',
+  ];
+  let currentLightbox = 0;
+  let visibleImages = [...Array(galleryImages.length).keys()];
+
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const items = document.querySelectorAll('.gallery-item');
+    visibleImages = [];
+    items.forEach((item, i) => {
+      const show = cat === 'all' || item.dataset.cat === cat;
+      item.style.display = show ? '' : 'none';
+      if (show) visibleImages.push(i);
+    });
+  }
+
+  function openLightbox(idx) {
+    currentLightbox = idx;
+    document.getElementById('lightboxImg').src = galleryImages[idx];
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function lightboxNav(dir) {
+    const pos = visibleImages.indexOf(currentLightbox);
+    currentLightbox = visibleImages[(pos + dir + visibleImages.length) % visibleImages.length];
+    document.getElementById('lightboxImg').src = galleryImages[currentLightbox];
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxNav(-1);
+    if (e.key === 'ArrowRight') lightboxNav(1);
+  });
+
+  function submitForm() {
+    if (!document.getElementById('fname').value.trim() || !document.getElementById('femail').value.trim() || !document.getElementById('fphone').value.trim()) {
+      alert('Please fill in your name, email, and phone number.');
+      return;
+    }
+    document.getElementById('quoteForm').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+    window.scrollTo({ top: document.getElementById('quote').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  document.getElementById('ffiles').addEventListener('change', function() {
+    if (this.files.length > 0) this.closest('.file-upload').querySelector('p').innerHTML = `✅ <strong>${this.files.length} file(s) selected</strong>`;
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
