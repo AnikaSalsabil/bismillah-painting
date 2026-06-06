@@ -32,6 +32,19 @@
 </div>
 
 <section id="hero">
+  <div class="hero-slideshow">
+    <div class="hero-slide active" style="background-image:url('images/modern luxury home sunset.png')"></div>
+    <div class="hero-slide" style="background-image:url('images/old-white-house-garden.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/modern house.png')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0009.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0013.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0026.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0034.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0043.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0006.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('images/IMG-20250220-WA0023.jpg')"></div>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-topbar"></div>
   <div class="hero-shape hs1"></div>
   <div class="hero-shape hs2"></div>
@@ -54,6 +67,7 @@
       <div class="stat"><span class="stat-num">NSW</span><span class="stat-label">Licensed & Insured</span></div>
     </div>
   </div>
+  <div class="hero-dots" id="heroDots"></div>
 </section>
 
 <section id="services">
@@ -338,6 +352,29 @@
   document.getElementById('ffiles').addEventListener('change', function() {
     if (this.files.length > 0) this.closest('.file-upload').querySelector('p').innerHTML = `✅ <strong>${this.files.length} file(s) selected</strong>`;
   });
+
+  // Hero slideshow
+  (function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dotsContainer = document.getElementById('heroDots');
+    let current = 0;
+    slides.forEach(function(_, i) {
+      const dot = document.createElement('button');
+      dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+      dot.addEventListener('click', function() { goTo(i); });
+      dotsContainer.appendChild(dot);
+    });
+    function getDots() { return document.querySelectorAll('.hero-dot'); }
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      getDots()[current].classList.remove('active');
+      current = n;
+      slides[current].classList.add('active');
+      getDots()[current].classList.add('active');
+    }
+    setInterval(function() { goTo((current + 1) % slides.length); }, 5000);
+  })();
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
