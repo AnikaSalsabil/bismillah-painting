@@ -90,42 +90,68 @@
 
 <section id="gallery">
   <div class="gallery-header reveal">
-    <div><div class="section-label">Our Work</div><h2 class="section-title">Projects We're <em>Proud Of</em></h2></div>
+    <div>
+      <div class="section-label">Our Work</div>
+      <h2 class="section-title">Projects We're <em>Proud Of</em></h2>
+      <p class="gallery-desc">Browse our completed projects. Click any photo to explore it in full.</p>
+    </div>
     <a href="#quote" class="btn-primary">Start Your Project</a>
   </div>
-  <div class="gallery-filters reveal">
-    <button class="filter-btn active" onclick="filterGallery('all',this)">All Projects</button>
-    <button class="filter-btn" onclick="filterGallery('interior',this)">Interior</button>
-    <button class="filter-btn" onclick="filterGallery('exterior',this)">Exterior</button>
-    <button class="filter-btn" onclick="filterGallery('construction',this)">Construction</button>
-    <button class="filter-btn" onclick="filterGallery('commercial',this)">Commercial</button>
+
+  <div class="gallery-tabs reveal" id="galleryTabs">
+    <button class="gtab active" onclick="filterGallery('all',this)">All <span class="gtab-count">24</span></button>
+    <button class="gtab" onclick="filterGallery('exterior',this)">Exterior <span class="gtab-count">12</span></button>
+    <button class="gtab" onclick="filterGallery('interior',this)">Interior <span class="gtab-count">3</span></button>
+    <button class="gtab" onclick="filterGallery('commercial',this)">Commercial <span class="gtab-count">4</span></button>
+    <button class="gtab" onclick="filterGallery('construction',this)">Construction <span class="gtab-count">5</span></button>
+    <div class="gtab-indicator" id="gtabIndicator"></div>
   </div>
+
   <div class="gallery-grid" id="galleryGrid">
-    <div class="gallery-item wide" data-cat="interior" onclick="openLightbox(0)"><img src="images/IMG-20250220-WA0029.jpg" alt="Interior painting"><div class="gallery-overlay"><span class="gallery-label">Interior Painting</span></div></div>
-    <div class="gallery-item" data-cat="construction" onclick="openLightbox(1)"><img src="images/IMG-20250220-WA0030.jpg" alt="Staircase"><div class="gallery-overlay"><span class="gallery-label">Staircase Finishing</span></div></div>
-    <div class="gallery-item" data-cat="construction" onclick="openLightbox(2)"><img src="images/IMG-20250220-WA0031.jpg" alt="Timber door"><div class="gallery-overlay"><span class="gallery-label">Timber Door</span></div></div>
-    <div class="gallery-item" data-cat="construction" onclick="openLightbox(3)"><img src="images/IMG-20250220-WA0032.jpg" alt="Door painting"><div class="gallery-overlay"><span class="gallery-label">Door Transformation</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(4)"><img src="images/IMG-20250220-WA0033.jpg" alt="New home exterior"><div class="gallery-overlay"><span class="gallery-label">New Home Exterior</span></div></div>
-    <div class="gallery-item wide" data-cat="commercial" onclick="openLightbox(5)"><img src="images/IMG-20250220-WA0034.jpg" alt="Commercial warehouse"><div class="gallery-overlay"><span class="gallery-label">Commercial Warehouse</span></div></div>
-    <div class="gallery-item" data-cat="commercial" onclick="openLightbox(6)"><img src="images/IMG-20250220-WA0035.jpg" alt="Industrial site"><div class="gallery-overlay"><span class="gallery-label">Industrial Site</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(7)"><img src="images/IMG-20250220-WA0036.jpg" alt="House repaint"><div class="gallery-overlay"><span class="gallery-label">House Repaint</span></div></div>
-    <div class="gallery-item" data-cat="interior" onclick="openLightbox(8)"><img src="images/IMG-20250220-WA0037.jpg" alt="Feature wall"><div class="gallery-overlay"><span class="gallery-label">Feature Wall Unit</span></div></div>
-    <div class="gallery-item" data-cat="commercial" onclick="openLightbox(9)"><img src="images/IMG-20250220-WA0038.jpg" alt="Commercial fit-out"><div class="gallery-overlay"><span class="gallery-label">Commercial Fit-Out</span></div></div>
-    <div class="gallery-item" data-cat="construction" onclick="openLightbox(10)"><img src="images/IMG-20250220-WA0039.jpg" alt="Timber staircase"><div class="gallery-overlay"><span class="gallery-label">Staircase Staining</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(11)"><img src="images/IMG-20250220-WA0040.jpg" alt="Modern home"><div class="gallery-overlay"><span class="gallery-label">Modern Home</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(12)"><img src="images/IMG-20250220-WA0041.jpg" alt="Exterior refresh"><div class="gallery-overlay"><span class="gallery-label">Exterior Refresh</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(13)"><img src="images/IMG-20250220-WA0042.jpg" alt="New build"><div class="gallery-overlay"><span class="gallery-label">New Build Exterior</span></div></div>
-    <div class="gallery-item" data-cat="construction" onclick="openLightbox(14)"><img src="images/IMG-20250220-WA0043.jpg" alt="Construction project"><div class="gallery-overlay"><span class="gallery-label">Construction Project</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(15)"><img src="images/IMG-20250220-WA0044.jpg" alt="Duplex exterior"><div class="gallery-overlay"><span class="gallery-label">Duplex Exterior</span></div></div>
-    <div class="gallery-item" data-cat="exterior" onclick="openLightbox(16)"><img src="images/IMG-20250220-WA0045.jpg" alt="Brick repaint"><div class="gallery-overlay"><span class="gallery-label">Brick Exterior Paint</span></div></div>
+    <div class="gcard" data-cat="interior" onclick="openLightbox(0)"><img src="images/IMG-20250220-WA0029.jpg" alt="Interior Painting" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Interior</span><h4 class="gcard-title">Interior Painting</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Interior</div></div>
+    <div class="gcard" data-cat="construction" onclick="openLightbox(1)"><img src="images/IMG-20250220-WA0030.jpg" alt="Staircase Finishing" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Construction</span><h4 class="gcard-title">Staircase Finishing</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Construction</div></div>
+    <div class="gcard" data-cat="construction" onclick="openLightbox(2)"><img src="images/IMG-20250220-WA0031.jpg" alt="Timber Door" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Construction</span><h4 class="gcard-title">Timber Door</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Construction</div></div>
+    <div class="gcard" data-cat="construction" onclick="openLightbox(3)"><img src="images/IMG-20250220-WA0032.jpg" alt="Door Transformation" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Construction</span><h4 class="gcard-title">Door Transformation</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Construction</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(4)"><img src="images/IMG-20250220-WA0033.jpg" alt="New Home Exterior" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">New Home Exterior</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="commercial" onclick="openLightbox(5)"><img src="images/IMG-20250220-WA0034.jpg" alt="Commercial Warehouse" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Commercial</span><h4 class="gcard-title">Commercial Warehouse</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Commercial</div></div>
+    <div class="gcard" data-cat="commercial" onclick="openLightbox(6)"><img src="images/IMG-20250220-WA0035.jpg" alt="Industrial Site" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Commercial</span><h4 class="gcard-title">Industrial Site</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Commercial</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(7)"><img src="images/IMG-20250220-WA0036.jpg" alt="House Repaint" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">House Repaint</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="interior" onclick="openLightbox(8)"><img src="images/IMG-20250220-WA0037.jpg" alt="Feature Wall Unit" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Interior</span><h4 class="gcard-title">Feature Wall Unit</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Interior</div></div>
+    <div class="gcard" data-cat="commercial" onclick="openLightbox(9)"><img src="images/IMG-20250220-WA0038.jpg" alt="Commercial Fit-Out" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Commercial</span><h4 class="gcard-title">Commercial Fit-Out</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Commercial</div></div>
+    <div class="gcard" data-cat="construction" onclick="openLightbox(10)"><img src="images/IMG-20250220-WA0039.jpg" alt="Staircase Staining" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Construction</span><h4 class="gcard-title">Staircase Staining</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Construction</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(11)"><img src="images/IMG-20250220-WA0040.jpg" alt="Modern Home" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Modern Home</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(12)"><img src="images/IMG-20250220-WA0041.jpg" alt="Exterior Refresh" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Exterior Refresh</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(13)"><img src="images/IMG-20250220-WA0042.jpg" alt="New Build Exterior" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">New Build Exterior</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="construction" onclick="openLightbox(14)"><img src="images/IMG-20250220-WA0043.jpg" alt="Construction Project" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Construction</span><h4 class="gcard-title">Construction Project</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Construction</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(15)"><img src="images/IMG-20250220-WA0044.jpg" alt="Duplex Exterior" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Duplex Exterior</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(16)"><img src="images/IMG-20250220-WA0045.jpg" alt="Brick Exterior Paint" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Brick Exterior Paint</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(17)"><img src="images/IMG-20250220-WA0046.jpg" alt="Residential Exterior" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Residential Exterior</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="interior" onclick="openLightbox(18)"><img src="images/IMG-20250220-WA0047.jpg" alt="Interior Finishing" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Interior</span><h4 class="gcard-title">Interior Finishing</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Interior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(19)"><img src="images/IMG-20250220-WA0048.jpg" alt="Premium Exterior" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Premium Exterior</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(20)"><img src="images/IMG-20250220-WA0049.jpg" alt="Home Transformation" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Home Transformation</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(21)"><img src="images/IMG-20250220-WA0006.jpg" alt="Exterior Painting" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Exterior Painting</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="exterior" onclick="openLightbox(22)"><img src="images/IMG-20250220-WA0009.jpg" alt="Residential Project" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Exterior</span><h4 class="gcard-title">Residential Project</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Exterior</div></div>
+    <div class="gcard" data-cat="commercial" onclick="openLightbox(23)"><img src="images/IMG-20250220-WA0013.jpg" alt="Commercial Project" loading="lazy"><div class="gcard-overlay"><span class="gcard-cat">Commercial</span><h4 class="gcard-title">Commercial Project</h4><span class="gcard-btn">View Project ↗</span></div><div class="gcard-tag">Commercial</div></div>
+  </div>
+
+  <div class="gallery-cta reveal">
+    <p>Inspired by what you see?</p>
+    <a href="#quote" class="btn-gold">Start Your Project →</a>
   </div>
 </section>
 
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
-  <img id="lightboxImg" src="" alt="">
-  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+  <div class="lb-counter" id="lbCounter"></div>
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lightboxNav(-1)">&#8249;</button>
+  <div class="lb-body">
+    <img id="lightboxImg" src="" alt="">
+    <div class="lb-caption">
+      <span class="lb-cat" id="lbCat"></span>
+      <span class="lb-title" id="lbTitle"></span>
+    </div>
+  </div>
+  <button class="lb-nav lb-next" onclick="lightboxNav(1)">&#8250;</button>
 </div>
 
 <section id="why">
@@ -256,43 +282,71 @@
 <script>
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
-  const galleryImages = [
-    'images/IMG-20250220-WA0029.jpg',
-    'images/IMG-20250220-WA0030.jpg',
-    'images/IMG-20250220-WA0031.jpg',
-    'images/IMG-20250220-WA0032.jpg',
-    'images/IMG-20250220-WA0033.jpg',
-    'images/IMG-20250220-WA0034.jpg',
-    'images/IMG-20250220-WA0035.jpg',
-    'images/IMG-20250220-WA0036.jpg',
-    'images/IMG-20250220-WA0037.jpg',
-    'images/IMG-20250220-WA0038.jpg',
-    'images/IMG-20250220-WA0039.jpg',
-    'images/IMG-20250220-WA0040.jpg',
-    'images/IMG-20250220-WA0041.jpg',
-    'images/IMG-20250220-WA0042.jpg',
-    'images/IMG-20250220-WA0043.jpg',
-    'images/IMG-20250220-WA0044.jpg',
-    'images/IMG-20250220-WA0045.jpg',
+  const galleryData = [
+    { src: 'images/IMG-20250220-WA0029.jpg', title: 'Interior Painting',    cat: 'Interior'     },
+    { src: 'images/IMG-20250220-WA0030.jpg', title: 'Staircase Finishing',  cat: 'Construction' },
+    { src: 'images/IMG-20250220-WA0031.jpg', title: 'Timber Door',          cat: 'Construction' },
+    { src: 'images/IMG-20250220-WA0032.jpg', title: 'Door Transformation',  cat: 'Construction' },
+    { src: 'images/IMG-20250220-WA0033.jpg', title: 'New Home Exterior',    cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0034.jpg', title: 'Commercial Warehouse', cat: 'Commercial'   },
+    { src: 'images/IMG-20250220-WA0035.jpg', title: 'Industrial Site',      cat: 'Commercial'   },
+    { src: 'images/IMG-20250220-WA0036.jpg', title: 'House Repaint',        cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0037.jpg', title: 'Feature Wall Unit',    cat: 'Interior'     },
+    { src: 'images/IMG-20250220-WA0038.jpg', title: 'Commercial Fit-Out',   cat: 'Commercial'   },
+    { src: 'images/IMG-20250220-WA0039.jpg', title: 'Staircase Staining',   cat: 'Construction' },
+    { src: 'images/IMG-20250220-WA0040.jpg', title: 'Modern Home',          cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0041.jpg', title: 'Exterior Refresh',     cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0042.jpg', title: 'New Build Exterior',   cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0043.jpg', title: 'Construction Project', cat: 'Construction' },
+    { src: 'images/IMG-20250220-WA0044.jpg', title: 'Duplex Exterior',      cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0045.jpg', title: 'Brick Exterior Paint', cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0046.jpg', title: 'Residential Exterior', cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0047.jpg', title: 'Interior Finishing',   cat: 'Interior'     },
+    { src: 'images/IMG-20250220-WA0048.jpg', title: 'Premium Exterior',     cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0049.jpg', title: 'Home Transformation',  cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0006.jpg', title: 'Exterior Painting',    cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0009.jpg', title: 'Residential Project',  cat: 'Exterior'     },
+    { src: 'images/IMG-20250220-WA0013.jpg', title: 'Commercial Project',   cat: 'Commercial'   },
   ];
   let currentLightbox = 0;
-  let visibleImages = [...Array(galleryImages.length).keys()];
+  let visibleImages = [...Array(galleryData.length).keys()];
 
   function filterGallery(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.gtab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const items = document.querySelectorAll('.gallery-item');
+    const ind = document.getElementById('gtabIndicator');
+    ind.style.left = btn.offsetLeft + 'px';
+    ind.style.width = btn.offsetWidth + 'px';
+
+    const cards = document.querySelectorAll('.gcard');
     visibleImages = [];
-    items.forEach((item, i) => {
-      const show = cat === 'all' || item.dataset.cat === cat;
-      item.style.display = show ? '' : 'none';
-      if (show) visibleImages.push(i);
+    let delay = 0;
+    cards.forEach((card, i) => {
+      const matches = cat === 'all' || card.dataset.cat === cat;
+      if (!matches) {
+        card.classList.add('g-out');
+        setTimeout(() => { if (card.classList.contains('g-out')) card.style.display = 'none'; }, 320);
+      } else {
+        visibleImages.push(i);
+        const wasHidden = card.style.display === 'none';
+        if (wasHidden) { card.style.display = ''; card.classList.add('g-out'); }
+        const d = wasHidden ? delay : 0;
+        setTimeout(() => card.classList.remove('g-out'), d + 20);
+        if (wasHidden) delay += 45;
+      }
     });
   }
 
+  function updateLightbox(idx) {
+    document.getElementById('lightboxImg').src = galleryData[idx].src;
+    document.getElementById('lbTitle').textContent = galleryData[idx].title;
+    document.getElementById('lbCat').textContent = galleryData[idx].cat;
+    const pos = visibleImages.indexOf(idx);
+    document.getElementById('lbCounter').textContent = (pos + 1) + ' / ' + visibleImages.length;
+  }
   function openLightbox(idx) {
     currentLightbox = idx;
-    document.getElementById('lightboxImg').src = galleryImages[idx];
+    updateLightbox(idx);
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -303,7 +357,7 @@
   function lightboxNav(dir) {
     const pos = visibleImages.indexOf(currentLightbox);
     currentLightbox = visibleImages[(pos + dir + visibleImages.length) % visibleImages.length];
-    document.getElementById('lightboxImg').src = galleryImages[currentLightbox];
+    updateLightbox(currentLightbox);
   }
   document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
   document.addEventListener('keydown', function(e) {
@@ -374,6 +428,16 @@
       getDots()[current].classList.add('active');
     }
     setInterval(function() { goTo((current + 1) % slides.length); }, 5000);
+  })();
+
+  // Init gallery tab indicator
+  (function() {
+    const active = document.querySelector('.gtab.active');
+    if (active) {
+      const ind = document.getElementById('gtabIndicator');
+      ind.style.left = active.offsetLeft + 'px';
+      ind.style.width = active.offsetWidth + 'px';
+    }
   })();
 
   const observer = new IntersectionObserver(entries => {
