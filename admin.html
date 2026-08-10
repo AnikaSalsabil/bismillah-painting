@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Portal — Bismillah Painting</title>
+<link rel="icon" type="image/png" href="images/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#4A148C;--brand-dark:#1a0030;--brand-mid:#7B1FA2;--gold:#F9A825;--gold-dark:#F57F17;--danger:#c0392b;--success:#27ae60;--bg:#f0eef6;--white:#fff;--border:#e0d8f0;--text:#1a0030;--muted:#6E5288;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;background:var(--brand-dark);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.login-card{background:var(--white);border-radius:16px;padding:48px 40px;width:360px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.4);}
+.login-card img{height:64px;width:auto;margin-bottom:16px;}
+.login-card h1{font-size:1.4rem;font-weight:700;color:var(--brand-dark);margin-bottom:4px;}
+.login-card p{font-size:0.85rem;color:var(--muted);margin-bottom:28px;}
+.login-card input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;margin-bottom:12px;}
+.login-card input:focus{border-color:var(--brand);}
+.login-card button{width:100%;padding:13px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s;}
+.login-card button:hover{background:var(--brand-mid);}
+.login-err{color:var(--danger);font-size:0.82rem;margin-top:10px;min-height:18px;}
+
+/* ── LAYOUT ── */
+#adminApp{display:none;width:100%;min-height:100vh;}
+.sidebar{width:240px;min-height:100vh;background:var(--brand-dark);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-brand{padding:24px 20px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sidebar-brand img{height:36px;width:auto;}
+.sidebar-brand span{font-size:0.88rem;font-weight:700;color:rgba(255,255,255,0.92);line-height:1.3;}
+.sidebar-nav{flex:1;padding:16px 12px;}
+.nav-item{width:100%;background:none;border:none;padding:10px 14px;border-radius:8px;display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;text-align:left;margin-bottom:2px;}
+.nav-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
+.nav-item.active{background:var(--brand);color:#fff;}
+.nav-icon{font-size:1.1rem;width:22px;text-align:center;}
+.sidebar-footer{padding:16px 12px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:8px;}
+.view-site-btn{display:block;text-align:center;padding:9px;border:1px solid rgba(255,255,255,0.2);border-radius:7px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.8rem;font-weight:500;transition:all 0.2s;}
+.view-site-btn:hover{border-color:var(--gold);color:var(--gold);}
+.logout-btn{width:100%;padding:9px;background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);border-radius:7px;color:rgba(255,100,80,0.9);font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.logout-btn:hover{background:rgba(192,57,43,0.3);}
+
+.main-content{margin-left:240px;flex:1;padding:32px;min-height:100vh;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:1.5rem;font-weight:700;color:var(--brand-dark);}
+.page-sub{font-size:0.85rem;color:var(--muted);margin-top:3px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:7px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-primary:hover{background:var(--brand-mid);}
+.btn-gold{background:var(--gold);color:var(--brand-dark);}
+.btn-gold:hover{background:var(--gold-dark);color:#fff;}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover{background:#a93226;}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text);}
+.btn-outline:hover{border-color:var(--brand);color:var(--brand);}
+.btn-sm{padding:6px 12px;font-size:0.78rem;}
+.btn-icon{background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;font-size:1rem;transition:background 0.2s;}
+.btn-icon:hover{background:var(--bg);}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:12px;padding:24px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(74,20,140,0.05);}
+.card-sm{padding:16px;}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--white);border-radius:12px;padding:20px;border:1px solid var(--border);text-align:center;}
+.stat-card .num{font-size:2rem;font-weight:700;color:var(--brand);font-family:'Inter',sans-serif;}
+.stat-card .lbl{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-top:4px;}
+
+/* ── GALLERY GRID ── */
+.gallery-controls{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.cat-filter{display:flex;gap:6px;flex-wrap:wrap;}
+.cat-btn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.cat-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;}
+.admin-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.ag-card{background:var(--white);border-radius:10px;overflow:hidden;border:1.5px solid var(--border);transition:box-shadow 0.2s;}
+.ag-card:hover{box-shadow:0 8px 24px rgba(74,20,140,0.12);}
+.ag-img{height:150px;overflow:hidden;position:relative;background:#f0eef6;}
+.ag-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.ag-img .ag-cat-badge{position:absolute;top:8px;left:8px;font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#fff;background:rgba(74,20,140,0.78);backdrop-filter:blur(4px);padding:3px 8px;border-radius:12px;}
+.ag-info{padding:10px 12px;}
+.ag-title{font-size:0.83rem;font-weight:600;color:var(--text);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ag-actions{display:flex;gap:6px;margin-top:8px;}
+.ag-actions .btn{flex:1;justify-content:center;}
+
+/* ── LOGO SECTION ── */
+.logo-preview-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;background:#f8f6ff;border:2px dashed var(--border);border-radius:12px;gap:16px;margin-bottom:20px;min-height:200px;}
+.logo-preview-box img{max-height:120px;max-width:260px;object-fit:contain;}
+.logo-preview-box p{color:var(--muted);font-size:0.85rem;}
+#logoFileInput{display:none;}
+
+/* ── HERO GRID ── */
+.hero-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+.hero-card{border-radius:10px;overflow:hidden;border:2px solid var(--border);position:relative;aspect-ratio:16/9;background:#f0eef6;cursor:pointer;transition:border-color 0.2s;}
+.hero-card img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-card .hc-remove{position:absolute;top:6px;right:6px;background:rgba(192,57,43,0.85);color:#fff;border:none;border-radius:50%;width:26px;height:26px;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;}
+.hero-card:hover .hc-remove{opacity:1;}
+
+/* ── SETTINGS FORM ── */
+.settings-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.form-field input,.form-field select{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+.form-field input:focus,.form-field select:focus{border-color:var(--brand);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,0,25,0.65);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-box{background:var(--white);border-radius:14px;padding:28px;width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,0.3);}
+.modal-box h3{font-size:1.1rem;font-weight:700;color:var(--brand-dark);margin-bottom:20px;}
+.modal-form{display:flex;flex-direction:column;gap:14px;}
+.modal-form label{font-size:0.76rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;}
+.modal-form input,.modal-form select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+.modal-form input:focus,.modal-form select:focus{border-color:var(--brand);}
+.modal-preview{width:100%;height:140px;object-fit:cover;border-radius:8px;border:1px solid var(--border);display:none;margin-top:6px;}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+
+/* ── PUBLISH BOX ── */
+.publish-box{background:linear-gradient(135deg,var(--brand-dark),#2d0060);border-radius:12px;padding:28px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:28px;}
+.publish-box h4{font-size:1rem;font-weight:700;margin-bottom:4px;}
+.publish-box p{font-size:0.83rem;opacity:0.75;}
+.publish-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--brand-dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.85rem;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,0.35);opacity:0;transform:translateY(12px);transition:all 0.3s;pointer-events:none;z-index:9999;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{background:var(--success);}
+.toast.error{background:var(--danger);}
+
+/* ── QUICK ACTIONS ── */
+.quick-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+.qa-card{flex:1;min-width:160px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:18px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.qa-card:hover{border-color:var(--brand);box-shadow:0 4px 18px rgba(74,20,140,0.1);}
+.qa-icon{font-size:1.8rem;margin-bottom:8px;}
+.qa-label{font-size:0.82rem;font-weight:600;color:var(--text);}
+
+/* ── NOTICE ── */
+.notice{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;font-size:0.82rem;color:#7d5a00;display:flex;gap:10px;align-items:flex-start;margin-bottom:16px;}
+
+/* ── DIVIDER ── */
+.section-divider{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:48px 20px;color:var(--muted);}
+.empty-state .es-icon{font-size:2.5rem;margin-bottom:12px;}
+.empty-state p{font-size:0.9rem;}
+
+/* IMAGE SELECTOR */
+.img-select-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-height:220px;overflow-y:auto;padding:4px;border:1.5px solid var(--border);border-radius:8px;}
+.img-opt{aspect-ratio:1;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.2s;}
+.img-opt:hover{border-color:var(--brand-mid);}
+.img-opt.selected{border-color:var(--brand);}
+.img-opt img{width:100%;height:100%;object-fit:cover;display:block;}
+
+@media(max-width:768px){
+  .sidebar{width:64px;}
+  .sidebar-brand span,.nav-item span:not(.nav-icon),.view-site-btn,.logout-btn,.sidebar-brand span{display:none;}
+  .main-content{margin-left:64px;padding:20px;}
+  .settings-form{grid-template-columns:1fr;}
+  .admin-gallery{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="images/logo.png" alt="Logo" onerror="this.style.display='none'">
+    <h1>Admin Portal</h1>
+    <p>Bismillah Painting & Decorating</p>
+    <input type="password" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Sign In →</button>
+    <p class="login-err" id="loginErr"></p>
+  </div>
+</div>
+
+<!-- ══════════════ APP ══════════════ -->
+<div id="adminApp">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="images/logo.png" alt="" onerror="this.style.display='none'">
+      <span>Admin Portal</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="nav('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></button>
+      <button class="nav-item" onclick="nav('gallery')"><span class="nav-icon">🖼️</span><span>Gallery</span></button>
+      <button class="nav-item" onclick="nav('logo')"><span class="nav-icon">🎨</span><span>Logo</span></button>
+      <button class="nav-item" onclick="nav('hero')"><span class="nav-icon">🏠</span><span>Hero Slideshow</span></button>
+      <button class="nav-item" onclick="nav('settings')"><span class="nav-icon">⚙️</span><span>Site Settings</span></button>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="view-site-btn">↗ View Live Site</a>
+      <button class="logout-btn" onclick="doLogout()">⏻ Logout</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section id="page-dashboard" class="page active">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-sub">Welcome back. Here's your site at a glance.</div>
+        </div>
+      </div>
+      <div class="stats-grid" id="dashStats"></div>
+      <div class="card">
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;">Quick Actions</div>
+        <div class="quick-actions">
+          <div class="qa-card" onclick="nav('gallery')"><div class="qa-icon">➕</div><div class="qa-label">Add Gallery Image</div></div>
+          <div class="qa-card" onclick="nav('logo')"><div class="qa-icon">🎨</div><div class="qa-label">Update Logo</div></div>
+          <div class="qa-card" onclick="nav('hero')"><div class="qa-icon">🏠</div><div class="qa-label">Edit Slideshow</div></div>
+          <div class="qa-card" onclick="nav('settings')"><div class="qa-icon">⚙️</div><div class="qa-label">Site Settings</div></div>
+        </div>
+      </div>
+      <div class="publish-box">
+        <div><h4>Publish Changes to Live Site</h4><p>Download the updated data files, then commit them to your GitHub repository. Vercel will redeploy automatically.</p></div>
+        <div class="publish-actions">
+          <button class="btn btn-gold" onclick="downloadGalleryJSON()">⬇ Download gallery-data.json</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="page-gallery" class="page">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Gallery Manager</div>
+          <div class="page-sub">Add, edit or remove project photos.</div>
+        </div>
+        <button class="btn btn-primary" onclick="openAddModal()">+ Add Image</button>
+      </div>
+      <div class="notice">💡 To add a brand-new photo, first upload the image file into the <strong>images/</strong> folder of your project, then add it here.</div>
+      <div class="gallery-controls">
+        <div class="cat-filter" id="catFilter">
+          <button class="cat-btn active" onclick="filterAdmin('all',this)">All</button>
+          <button class="cat-btn" onclick="filterAdmin('exterior',this)">Exterior</button>
+          <button class="cat-btn" onclick="filterAdmin('interior',this)">Interior</button>
+          <button class="cat-btn" onclick="filterAdmin('commercial',this)">Commercial</button>
+          <button class="cat-btn" onclick="filterAdmin('construction',this)">Construction</button>
+        </div>
+        <span id="galleryCount" style="margin-left:auto;font-size:0.82rem;color:var(--muted);"></span>
+      </div>
+      <div class="admin-gallery" id="adminGallery"></div>
+    </section>
+
+    <!-- LOGO -->
+    <section id="page-logo" class="page">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Logo Manager</div>
+          <div class="page-sub">Update the site logo.</div>
+        </div>
+      </div>
+      <div class="card" style="max-width:520px;">
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px;">Current Logo</div>
+        <div class="logo-preview-box" id="logoPreviewBox">
+          <img id="logoPreviewImg" src="images/logo.png" alt="Logo">
+        </div>
+        <input type="file" id="logoFileInput" accept="image/*" onchange="previewLogo(this)">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="document.getElementById('logoFileInput').click()">📁 Choose New Logo</button>
+          <button class="btn btn-primary" onclick="saveLogo()">Save Logo</button>
+        </div>
+        <hr class="section-divider">
+        <div style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
+          After saving, click <strong>Download Logo File</strong> below, rename it to <strong>logo.png</strong> and replace the file in your <strong>images/</strong> folder. Then redeploy.
+        </div>
+        <div style="margin-top:14px;">
+          <button class="btn btn-gold" id="downloadLogoBtn" onclick="downloadLogo()" disabled>⬇ Download Logo File</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO SLIDESHOW -->
+    <section id="page-hero" class="page">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Hero Slideshow</div>
+          <div class="page-sub">Manage the background images shown on the homepage hero section.</div>
+        </div>
+        <button class="btn btn-primary" onclick="openHeroAddModal()">+ Add Slide</button>
+      </div>
+      <div class="notice">💡 Hover over an image and click the ✕ to remove it from the slideshow. Changes take effect after publishing.</div>
+      <div class="hero-grid" id="heroGrid"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="page-settings" class="page">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Site Settings</div>
+          <div class="page-sub">Update contact details, social links and the admin password.</div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      </div>
+      <div class="card">
+        <div style="font-size:0.88rem;font-weight:700;color:var(--brand-dark);margin-bottom:18px;">Contact Information</div>
+        <div class="settings-form">
+          <div class="form-field"><label>Phone Number</label><input type="tel" id="s-phone" placeholder="0452 320 822"></div>
+          <div class="form-field"><label>Email Address</label><input type="email" id="s-email" placeholder="bismillahpainting.au@gmail.com"></div>
+          <div class="form-field full"><label>Business Address</label><input type="text" id="s-address" placeholder="Kingsbury Street, Airds, Sydney NSW 2566"></div>
+        </div>
+        <hr class="section-divider">
+        <div style="font-size:0.88rem;font-weight:700;color:var(--brand-dark);margin-bottom:18px;">Social Media</div>
+        <div class="settings-form">
+          <div class="form-field"><label>Facebook URL</label><input type="url" id="s-facebook" placeholder="https://facebook.com/..."></div>
+          <div class="form-field"><label>Instagram URL</label><input type="url" id="s-instagram" placeholder="https://instagram.com/..."></div>
+        </div>
+        <hr class="section-divider">
+        <div style="font-size:0.88rem;font-weight:700;color:var(--brand-dark);margin-bottom:18px;">Quote Form</div>
+        <div class="settings-form">
+          <div class="form-field"><label>Formspree Form ID</label><input type="text" id="s-formspree" placeholder="xpwzabcd"></div>
+          <div class="form-field"><label>Quote Reply Email</label><input type="email" id="s-quoteEmail" placeholder="bismillahpainting.au@gmail.com"></div>
+        </div>
+        <hr class="section-divider">
+        <div style="font-size:0.88rem;font-weight:700;color:var(--brand-dark);margin-bottom:18px;">Admin Password</div>
+        <div class="settings-form">
+          <div class="form-field"><label>New Password</label><input type="password" id="s-newpass" placeholder="Leave blank to keep current"></div>
+          <div class="form-field"><label>Confirm Password</label><input type="password" id="s-confirmpass" placeholder="Repeat new password"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─────────── DEFAULTS ─────────── */
+const DEFAULT_PASS = 'bismillah2025';
+
+const DEFAULT_GALLERY = [
+  {id:1,src:'images/IMG-20250220-WA0029.jpg',title:'Interior Painting',cat:'interior'},
+  {id:2,src:'images/IMG-20250220-WA0030.jpg',title:'Staircase Finishing',cat:'construction'},
+  {id:3,src:'images/IMG-20250220-WA0031.jpg',title:'Timber Door',cat:'construction'},
+  {id:4,src:'images/IMG-20250220-WA0032.jpg',title:'Door Transformation',cat:'construction'},
+  {id:5,src:'images/IMG-20250220-WA0033.jpg',title:'New Home Exterior',cat:'exterior'},
+  {id:6,src:'images/IMG-20250220-WA0034.jpg',title:'Commercial Warehouse',cat:'commercial'},
+  {id:7,src:'images/IMG-20250220-WA0035.jpg',title:'Industrial Site',cat:'commercial'},
+  {id:8,src:'images/IMG-20250220-WA0036.jpg',title:'House Repaint',cat:'exterior'},
+  {id:9,src:'images/IMG-20250220-WA0037.jpg',title:'Feature Wall Unit',cat:'interior'},
+  {id:10,src:'images/IMG-20250220-WA0038.jpg',title:'Commercial Fit-Out',cat:'commercial'},
+  {id:11,src:'images/IMG-20250220-WA0039.jpg',title:'Staircase Staining',cat:'construction'},
+  {id:12,src:'images/IMG-20250220-WA0040.jpg',title:'Modern Home',cat:'exterior'},
+  {id:13,src:'images/IMG-20250220-WA0041.jpg',title:'Exterior Refresh',cat:'exterior'},
+  {id:14,src:'images/IMG-20250220-WA0042.jpg',title:'New Build Exterior',cat:'exterior'},
+  {id:15,src:'images/IMG-20250220-WA0043.jpg',title:'Construction Project',cat:'construction'},
+  {id:16,src:'images/IMG-20250220-WA0044.jpg',title:'Duplex Exterior',cat:'exterior'},
+  {id:17,src:'images/IMG-20250220-WA0045.jpg',title:'Brick Exterior Paint',cat:'exterior'},
+  {id:18,src:'images/IMG-20250220-WA0046.jpg',title:'Residential Exterior',cat:'exterior'},
+  {id:19,src:'images/IMG-20250220-WA0047.jpg',title:'Interior Finishing',cat:'interior'},
+  {id:20,src:'images/IMG-20250220-WA0048.jpg',title:'Premium Exterior',cat:'exterior'},
+  {id:21,src:'images/IMG-20250220-WA0049.jpg',title:'Home Transformation',cat:'exterior'},
+  {id:22,src:'images/IMG-20250220-WA0006.jpg',title:'Exterior Painting',cat:'exterior'},
+  {id:23,src:'images/IMG-20250220-WA0009.jpg',title:'Residential Project',cat:'exterior'},
+  {id:24,src:'images/IMG-20250220-WA0013.jpg',title:'Commercial Project',cat:'commercial'}
+];
+
+const DEFAULT_HERO = [
+  'images/modern luxury home sunset.png',
+  'images/old-white-house-garden.jpg',
+  'images/modern house.png',
+  'images/IMG-20250220-WA0009.jpg',
+  'images/IMG-20250220-WA0013.jpg',
+  'images/IMG-20250220-WA0026.jpg',
+  'images/IMG-20250220-WA0034.jpg',
+  'images/IMG-20250220-WA0043.jpg',
+  'images/IMG-20250220-WA0006.jpg',
+  'images/IMG-20250220-WA0023.jpg'
+];
+
+const DEFAULT_SETTINGS = {
+  phone:'0452 320 822',
+  email:'bismillahpainting.au@gmail.com',
+  address:'Kingsbury Street, Airds, Sydney NSW 2566',
+  facebook:'https://www.facebook.com/profile.php?id=100083475635920',
+  instagram:'https://www.instagram.com/bismillahpainting.au/',
+  formspree:'xdavadoj',
+  quoteEmail:'bismillahpainting.au@gmail.com'
+};
+
+// All known images available in the project
+const ALL_IMAGES = [
+  'images/modern luxury home sunset.png','images/modern house.png','images/old-white-house-garden.jpg',
+  ...Array.from({length:50},(_,i)=>`images/IMG-20250220-WA${String(i).padStart(4,'0')}.jpg`)
+];
+
+/* ─────────── STATE ─────────── */
+let gallery = [], heroImages = [], settings = {}, pendingLogoDataUrl = null, editingId = null, activeFilter = 'all';
+
+function loadState() {
+  gallery = JSON.parse(localStorage.getItem('bp_gallery') || 'null') || [...DEFAULT_GALLERY];
+  heroImages = JSON.parse(localStorage.getItem('bp_hero') || 'null') || [...DEFAULT_HERO];
+  settings = JSON.parse(localStorage.getItem('bp_settings') || 'null') || {...DEFAULT_SETTINGS};
+}
+function saveGallery() { localStorage.setItem('bp_gallery', JSON.stringify(gallery)); }
+function saveHero() { localStorage.setItem('bp_hero', JSON.stringify(heroImages)); }
+function saveSettingsState() { localStorage.setItem('bp_settings', JSON.stringify(settings)); }
+
+/* ─────────── AUTH ─────────── */
+function getPass() { return localStorage.getItem('bp_pass') || DEFAULT_PASS; }
+
+function doLogin() {
+  const val = document.getElementById('loginPass').value;
+  if (val === getPass()) {
+    localStorage.setItem('bp_session', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'flex';
+    loadState();
+    renderDashboard();
+  } else {
+    document.getElementById('loginErr').textContent = 'Incorrect password. Try again.';
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('bp_session');
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+}
+
+/* ─────────── NAVIGATION ─────────── */
+function nav(page) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const navIdx = ['dashboard','gallery','logo','hero','settings'].indexOf(page);
+  document.querySelectorAll('.nav-item')[navIdx].classList.add('active');
+  document.getElementById('page-' + (page === 'hero' ? 'hero' : page)).classList.add('active');
+  if (page === 'dashboard') renderDashboard();
+  if (page === 'gallery') renderGallery();
+  if (page === 'hero') renderHero();
+  if (page === 'settings') populateSettings();
+}
+
+/* ─────────── DASHBOARD ─────────── */
+function renderDashboard() {
+  const cats = {all: gallery.length, exterior:0, interior:0, commercial:0, construction:0};
+  gallery.forEach(i => { if (cats[i.cat] !== undefined) cats[i.cat]++; });
+  const labels = {all:'Total Images', exterior:'Exterior', interior:'Interior', commercial:'Commercial', construction:'Construction'};
+  document.getElementById('dashStats').innerHTML = Object.entries(cats).map(([k,v]) =>
+    `<div class="stat-card"><div class="num">${v}</div><div class="lbl">${labels[k]}</div></div>`
+  ).join('');
+}
+
+/* ─────────── GALLERY ─────────── */
+function renderGallery(filter) {
+  if (filter) activeFilter = filter;
+  const items = activeFilter === 'all' ? gallery : gallery.filter(i => i.cat === activeFilter);
+  document.getElementById('galleryCount').textContent = items.length + ' image' + (items.length !== 1 ? 's' : '');
+  const catNames = {interior:'Interior', exterior:'Exterior', commercial:'Commercial', construction:'Construction'};
+  document.getElementById('adminGallery').innerHTML = items.length === 0
+    ? `<div class="empty-state"><div class="es-icon">🖼️</div><p>No images in this category yet.</p></div>`
+    : items.map(item => `
+      <div class="ag-card">
+        <div class="ag-img">
+          <img src="${item.src}" alt="${item.title}" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:0.8rem;\'>Image not found</div>'">
+          <div class="ag-cat-badge">${catNames[item.cat]||item.cat}</div>
+        </div>
+        <div class="ag-info">
+          <div class="ag-title" title="${item.title}">${item.title}</div>
+          <div class="ag-actions">
+            <button class="btn btn-sm btn-outline" onclick="openEditModal(${item.id})">✏️ Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteItem(${item.id})">🗑</button>
+          </div>
+        </div>
+      </div>`).join('');
+}
+
+function filterAdmin(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery(cat);
+}
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalBox').innerHTML = `
+    <h3>Add Gallery Image</h3>
+    <div class="modal-form">
+      <div>
+        <label>Select from existing images</label>
+        <div class="img-select-grid" id="imgSelectGrid">${ALL_IMAGES.map((src,i)=>`<div class="img-opt" id="imgopt-${i}" onclick="selectImgOpt('${src}',${i})"><img src="${src}" alt="" onerror="this.parentElement.style.display='none'"></div>`).join('')}</div>
+      </div>
+      <div>
+        <label>Or enter image path / URL</label>
+        <input type="text" id="m-src" placeholder="images/your-photo.jpg" oninput="updateModalPreview(this.value)">
+        <img class="modal-preview" id="m-preview" src="" alt="">
+      </div>
+      <div>
+        <label>Project Title</label>
+        <input type="text" id="m-title" placeholder="e.g. Modern Home Exterior">
+      </div>
+      <div>
+        <label>Category</label>
+        <select id="m-cat">
+          <option value="exterior">Exterior</option>
+          <option value="interior">Interior</option>
+          <option value="commercial">Commercial</option>
+          <option value="construction">Construction</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveItem()">Add Image</button>
+    </div>`;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function openEditModal(id) {
+  editingId = id;
+  const item = gallery.find(i => i.id === id);
+  if (!item) return;
+  document.getElementById('modalBox').innerHTML = `
+    <h3>Edit Gallery Image</h3>
+    <div class="modal-form">
+      <div style="text-align:center;">
+        <img src="${item.src}" style="max-height:130px;max-width:100%;border-radius:8px;border:1px solid var(--border);" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <label>Image Path / URL</label>
+        <input type="text" id="m-src" value="${item.src}" oninput="updateModalPreview(this.value)">
+      </div>
+      <div>
+        <label>Project Title</label>
+        <input type="text" id="m-title" value="${item.title}">
+      </div>
+      <div>
+        <label>Category</label>
+        <select id="m-cat">
+          <option value="exterior" ${item.cat==='exterior'?'selected':''}>Exterior</option>
+          <option value="interior" ${item.cat==='interior'?'selected':''}>Interior</option>
+          <option value="commercial" ${item.cat==='commercial'?'selected':''}>Commercial</option>
+          <option value="construction" ${item.cat==='construction'?'selected':''}>Construction</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveItem()">Save Changes</button>
+    </div>`;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function selectImgOpt(src, idx) {
+  document.querySelectorAll('.img-opt').forEach(el => el.classList.remove('selected'));
+  const el = document.getElementById('imgopt-' + idx);
+  if (el) el.classList.add('selected');
+  const srcInput = document.getElementById('m-src');
+  if (srcInput) { srcInput.value = src; updateModalPreview(src); }
+}
+
+function updateModalPreview(src) {
+  const p = document.getElementById('m-preview');
+  if (p && src) { p.src = src; p.style.display = 'block'; }
+}
+
+function saveItem() {
+  const src = document.getElementById('m-src').value.trim();
+  const title = document.getElementById('m-title').value.trim();
+  const cat = document.getElementById('m-cat').value;
+  if (!src || !title) { toast('Please fill in image path and title.', 'error'); return; }
+  if (editingId) {
+    const item = gallery.find(i => i.id === editingId);
+    if (item) { item.src = src; item.title = title; item.cat = cat; }
+  } else {
+    const newId = gallery.length ? Math.max(...gallery.map(i => i.id)) + 1 : 1;
+    gallery.push({id: newId, src, title, cat});
+  }
+  saveGallery();
+  closeModal();
+  renderGallery();
+  renderDashboard();
+  toast(editingId ? 'Image updated successfully.' : 'Image added successfully.', 'success');
+}
+
+function deleteItem(id) {
+  if (!confirm('Delete this image from the gallery?')) return;
+  gallery = gallery.filter(i => i.id !== id);
+  saveGallery();
+  renderGallery();
+  renderDashboard();
+  toast('Image removed from gallery.', 'success');
+}
+
+/* ─────────── LOGO ─────────── */
+function previewLogo(input) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    pendingLogoDataUrl = e.target.result;
+    document.getElementById('logoPreviewImg').src = pendingLogoDataUrl;
+    document.getElementById('downloadLogoBtn').disabled = false;
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function saveLogo() {
+  if (!pendingLogoDataUrl) { toast('Please choose a new logo file first.', 'error'); return; }
+  localStorage.setItem('bp_logo', pendingLogoDataUrl);
+  toast('Logo preview saved. Download and deploy the file to make it live.', 'success');
+  document.getElementById('downloadLogoBtn').disabled = false;
+}
+
+function downloadLogo() {
+  const src = pendingLogoDataUrl || localStorage.getItem('bp_logo');
+  if (!src || !src.startsWith('data:')) { toast('No new logo uploaded yet.', 'error'); return; }
+  const a = document.createElement('a'); a.href = src; a.download = 'logo.png'; a.click();
+}
+
+/* ─────────── HERO SLIDESHOW ─────────── */
+function renderHero() {
+  document.getElementById('heroGrid').innerHTML = heroImages.map((src,i) => `
+    <div class="hero-card">
+      <img src="${src}" alt="" onerror="this.style.opacity='0.3'">
+      <button class="hc-remove" title="Remove" onclick="removeHeroSlide(${i})">✕</button>
+    </div>`).join('');
+}
+
+function removeHeroSlide(i) {
+  if (!confirm('Remove this image from the slideshow?')) return;
+  heroImages.splice(i, 1);
+  saveHero();
+  renderHero();
+  toast('Slide removed.', 'success');
+}
+
+function openHeroAddModal() {
+  document.getElementById('modalBox').innerHTML = `
+    <h3>Add Hero Slide</h3>
+    <div class="modal-form">
+      <div>
+        <label>Select from existing images</label>
+        <div class="img-select-grid" id="heroImgGrid">${ALL_IMAGES.map((src,i)=>`<div class="img-opt" id="hopt-${i}" onclick="selectHeroOpt('${src}',${i})"><img src="${src}" alt="" onerror="this.parentElement.style.display='none'"></div>`).join('')}</div>
+      </div>
+      <div>
+        <label>Or enter image path / URL</label>
+        <input type="text" id="h-src" placeholder="images/your-photo.jpg" oninput="updateHeroPreview(this.value)">
+        <img class="modal-preview" id="h-preview" src="" alt="">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="addHeroSlide()">Add Slide</button>
+    </div>`;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function selectHeroOpt(src, idx) {
+  document.querySelectorAll('.img-opt').forEach(el => el.classList.remove('selected'));
+  const el = document.getElementById('hopt-' + idx);
+  if (el) el.classList.add('selected');
+  const inp = document.getElementById('h-src');
+  if (inp) { inp.value = src; updateHeroPreview(src); }
+}
+
+function updateHeroPreview(src) {
+  const p = document.getElementById('h-preview');
+  if (p && src) { p.src = src; p.style.display = 'block'; }
+}
+
+function addHeroSlide() {
+  const src = document.getElementById('h-src').value.trim();
+  if (!src) { toast('Please select or enter an image path.', 'error'); return; }
+  if (heroImages.includes(src)) { toast('This image is already in the slideshow.', 'error'); return; }
+  heroImages.push(src);
+  saveHero();
+  closeModal();
+  renderHero();
+  toast('Slide added to hero slideshow.', 'success');
+}
+
+/* ─────────── SETTINGS ─────────── */
+function populateSettings() {
+  document.getElementById('s-phone').value = settings.phone || '';
+  document.getElementById('s-email').value = settings.email || '';
+  document.getElementById('s-address').value = settings.address || '';
+  document.getElementById('s-facebook').value = settings.facebook || '';
+  document.getElementById('s-instagram').value = settings.instagram || '';
+  document.getElementById('s-formspree').value = settings.formspree || '';
+  document.getElementById('s-quoteEmail').value = settings.quoteEmail || '';
+}
+
+function saveSettings() {
+  const np = document.getElementById('s-newpass').value;
+  const cp = document.getElementById('s-confirmpass').value;
+  if (np) {
+    if (np !== cp) { toast('Passwords do not match.', 'error'); return; }
+    if (np.length < 6) { toast('Password must be at least 6 characters.', 'error'); return; }
+    localStorage.setItem('bp_pass', np);
+    document.getElementById('s-newpass').value = '';
+    document.getElementById('s-confirmpass').value = '';
+  }
+  settings = {
+    phone: document.getElementById('s-phone').value.trim(),
+    email: document.getElementById('s-email').value.trim(),
+    address: document.getElementById('s-address').value.trim(),
+    facebook: document.getElementById('s-facebook').value.trim(),
+    instagram: document.getElementById('s-instagram').value.trim(),
+    formspree: document.getElementById('s-formspree').value.trim(),
+    quoteEmail: document.getElementById('s-quoteEmail').value.trim()
+  };
+  saveSettingsState();
+  toast('Settings saved successfully.', 'success');
+}
+
+/* ─────────── EXPORT ─────────── */
+function downloadGalleryJSON() {
+  const data = gallery.map(({src, title, cat}) => ({src, title, cat}));
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'gallery-data.json'; a.click();
+  toast('gallery-data.json downloaded. Replace the file in your project and redeploy.', 'success');
+}
+
+/* ─────────── MODAL ─────────── */
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+/* ─────────── TOAST ─────────── */
+let toastTimer;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = 'toast', 3500);
+}
+
+/* ─────────── KEYBOARD ─────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin();
+});
+
+/* ─────────── INIT ─────────── */
+(function init() {
+  if (localStorage.getItem('bp_session')) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'flex';
+    loadState();
+    renderDashboard();
+  }
+})();
+</script>
+</body>
+</html>
